@@ -19,7 +19,6 @@ public final class House {
         return switch (people) {
             case VillagePeople p -> 100;
             case Minion m -> 1;
-            default -> 0;
         };
     }
 

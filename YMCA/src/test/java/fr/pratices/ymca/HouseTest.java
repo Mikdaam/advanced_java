@@ -248,7 +248,7 @@ public class HouseTest {
     }
 
 
-    /*@Nested
+    @Nested
     public class Q7 {
         @Test
         public void commonSupertypeIsSealed() {
@@ -263,7 +263,7 @@ public class HouseTest {
     }
 
 
-    @Nested
+    /*@Nested
     public class Q8 {
         @Test
         public void discountWithOnlyVillagePeople() {

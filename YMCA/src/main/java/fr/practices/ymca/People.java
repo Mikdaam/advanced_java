@@ -1,5 +1,5 @@
 package fr.practices.ymca;
 
-public interface People {
+public sealed interface People permits VillagePeople, Minion {
     String name();
 }
