@@ -192,7 +192,7 @@ public class HouseTest {
     }
 
 
-    /*@Nested
+    @Nested
     public class Q5 {
         @Test
         public void averagePriceVillagePeople() {
@@ -234,7 +234,7 @@ public class HouseTest {
     }
 
 
-    @Nested
+    /*@Nested
     public class Q6 {
         @Test
         public void commonSupertypeHasOnlyOneMethodNamedName() {

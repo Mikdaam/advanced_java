@@ -15,6 +15,10 @@ public final class House {
         peoples.add(people);
     }
 
+    public double averagePrice() {
+        return peoples.stream().mapToDouble(People::price).average().orElse(Double.NaN);
+    }
+
     @Override
     public String toString() {
         if (peoples.isEmpty()) {
