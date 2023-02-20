@@ -2,6 +2,7 @@ package fr.pratices.ymca;
 
 import fr.practices.ymca.House;
 import fr.practices.ymca.Kind;
+import fr.practices.ymca.Minion;
 import fr.practices.ymca.VillagePeople;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -114,7 +115,7 @@ public class HouseTest {
     }
 
 
-    /*@Nested
+    @Nested
     public class Q3 {
         @Test
         public void houseNameProperlySorted() {
@@ -191,7 +192,7 @@ public class HouseTest {
     }
 
 
-    @Nested
+    /*@Nested
     public class Q5 {
         @Test
         public void averagePriceVillagePeople() {
