@@ -2,6 +2,7 @@ package fr.practices.ymca;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class House {
     private final ArrayList<VillagePeople> peoples;
@@ -20,13 +21,9 @@ public class House {
             return "Empty House";
         }
 
-        var separator = "";
-        var peoplesString = new StringBuilder();
-        peoplesString.append("House with ");
-        for (var people : peoples) {
-            peoplesString.append(separator).append(people.name());
-            separator = ", ";
-        }
-        return peoplesString.toString();
+        return "House with " + peoples.stream()
+                .map(VillagePeople::name)
+                .sorted()
+                .collect(Collectors.joining(", "));
     }
 }
