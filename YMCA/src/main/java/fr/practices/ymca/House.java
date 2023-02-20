@@ -15,8 +15,16 @@ public final class House {
         peoples.add(people);
     }
 
+    private double price(People people) {
+        return switch (people) {
+            case VillagePeople p -> 100;
+            case Minion m -> 1;
+            default -> 0;
+        };
+    }
+
     public double averagePrice() {
-        return peoples.stream().mapToDouble(People::price).average().orElse(Double.NaN);
+        return peoples.stream().mapToDouble(this::price).average().orElse(Double.NaN);
     }
 
     @Override

@@ -8,11 +8,6 @@ public record Minion(String name) implements People {
     }
 
     @Override
-    public double price() {
-        return 1;
-    }
-
-    @Override
     public String toString() {
         return name + " (MINION)";
     }

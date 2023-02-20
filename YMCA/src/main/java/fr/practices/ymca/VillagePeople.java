@@ -9,11 +9,6 @@ public record VillagePeople(String name, Kind kind) implements People {
     }
 
     @Override
-    public double price() {
-        return 100;
-    }
-
-    @Override
     public String toString() {
         return name + " (" + kind + ")";
     }
