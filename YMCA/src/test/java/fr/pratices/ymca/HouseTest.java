@@ -302,7 +302,7 @@ public class HouseTest {
     }
 
 
-    /*@Nested
+    @Nested
     public class Q9 {
         @Test
         public void discount() {
@@ -332,7 +332,7 @@ public class HouseTest {
         }
     }
 
-    @Nested
+    /*@Nested
     public class Q10 {
         @Test
         public void addDiscount() {

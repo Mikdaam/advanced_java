@@ -31,6 +31,14 @@ public final class House {
         discount.put(kind, 0.8);
     }
 
+    public void removeDiscount(Kind kind) {
+        Objects.requireNonNull(kind, "Can't be null!");
+        if (!discount.containsKey(kind)) {
+            throw new IllegalStateException("Nop!");
+        }
+        discount.remove(kind);
+    }
+
     public double averagePrice() {
         return peoples.stream().mapToDouble(this::price).average().orElse(Double.NaN);
     }
