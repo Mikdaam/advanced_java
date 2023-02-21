@@ -26,9 +26,16 @@ public final class House {
         };
     }
 
-    public void addDiscount(Kind kind) {
+    public void addDiscount(Kind kind, int percent) {
         Objects.requireNonNull(kind, "Can't be null!");
-        discount.put(kind, 0.8);
+        if (percent < 1 || percent > 100) {
+            throw new IllegalArgumentException("Should be between 1 and 100");
+        }
+        discount.put(kind, (percent * 0.01));
+    }
+
+    public void addDiscount(Kind kind) {
+        addDiscount(kind, 80);
     }
 
     public void removeDiscount(Kind kind) {

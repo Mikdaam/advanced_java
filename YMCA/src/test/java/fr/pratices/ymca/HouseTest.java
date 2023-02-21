@@ -332,7 +332,7 @@ public class HouseTest {
         }
     }
 
-    /*@Nested
+    @Nested
     public class Q10 {
         @Test
         public void addDiscount() {
@@ -355,7 +355,7 @@ public class HouseTest {
             assertEquals(67.0, house.averagePrice(), 0.00001);
         }
 
-        @Test
+        /*@Test
         public void priceByDiscount() {
             var house = new House();
             house.addDiscount(Kind.NATIVE, 40);
@@ -374,7 +374,7 @@ public class HouseTest {
             assertEquals(
                     Map.of(0, 403, 10, 180, 40, 60), priceByDiscount
             );
-        }
+        }*/
 
         @Test
         public void preconditions() {
@@ -384,5 +384,5 @@ public class HouseTest {
                     () -> assertThrows(IllegalArgumentException.class, () -> new House().addDiscount(Kind.ADMIRAL, 101))
             );
         }
-    }*/
+    }
 }
