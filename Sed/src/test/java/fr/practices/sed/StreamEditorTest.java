@@ -94,7 +94,7 @@ public class StreamEditorTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q2 {
     @Test
     public void lineDelete() throws IOException {
@@ -147,7 +147,7 @@ public class StreamEditorTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q3 {
     @Test
     public void main() {
