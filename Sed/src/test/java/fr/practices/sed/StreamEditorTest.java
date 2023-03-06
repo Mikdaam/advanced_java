@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class StreamEditorTest {
-  /*@Nested
+  @Nested
   public class Q1 {
     @Test
     public void transform() throws IOException {
@@ -94,7 +94,7 @@ public class StreamEditorTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q2 {
     @Test
     public void lineDelete() throws IOException {
