@@ -365,7 +365,7 @@ public class StreamEditorTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q10 {
     @Test
     public void andThen() throws IOException {
@@ -441,6 +441,6 @@ public class StreamEditorTest {
     public void andThenPrecondition() {
       assertThrows(NullPointerException.class, () -> StreamEditor.lineDelete(10).andThen(null));
     }
-  }*/
+  }
 
 }

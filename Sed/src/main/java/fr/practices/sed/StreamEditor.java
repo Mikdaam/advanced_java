@@ -18,6 +18,18 @@ public class StreamEditor {
     @FunctionalInterface
     public interface Command {
         Action execute(int lineNo, String line);
+
+        default Command andThen(Command nextCommand) {
+            Objects.requireNonNull(nextCommand);
+            return (int lineNo, String line) -> {
+                var prev = execute(lineNo, line);
+                switch (prev) {
+                    case Action.DeleteAction deleteAction -> { return deleteAction; }
+                    case Action.PrintAction printAction -> line = printAction.text();
+                }
+                return nextCommand.execute(lineNo, line);
+            };
+        }
     }
     private final Command command;
 
