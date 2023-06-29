@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class StreamEditor {
     public enum Action { DELETE, PRINT }
@@ -25,13 +26,23 @@ public class StreamEditor {
             return lineNumber == lineNo ? Action.DELETE : Action.PRINT;
         }
     }
-    private final LineDeleteCommand command;
+    public record FindAndDelete(Pattern pattern) implements Command {
+        public FindAndDelete {
+            Objects.requireNonNull(pattern);
+        }
+        @Override
+        public Action execute(int lineNo, String line) {
+            var matcher = pattern.matcher(line);
+            return matcher.find() ? Action.DELETE : Action.PRINT;
+        }
+    }
+    private final Command command;
 
     public StreamEditor() {
         this.command = new LineDeleteCommand(0);
     }
 
-    public StreamEditor(LineDeleteCommand command) {
+    public StreamEditor(Command command) {
         this.command = command;
     }
 
@@ -40,6 +51,11 @@ public class StreamEditor {
             throw new IllegalArgumentException("Can't accept number < 1");
         }
         return new LineDeleteCommand(lineNumber);
+    }
+
+    public static FindAndDelete findAndDelete(Pattern pattern) {
+        Objects.requireNonNull(pattern);
+        return new FindAndDelete(pattern);
     }
 
     public void transform(LineNumberReader lineNumberReader, Writer writer) throws IOException {

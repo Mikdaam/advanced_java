@@ -208,7 +208,7 @@ public class StreamEditorTest {
     }
   }
 
-  /*@Nested
+  @Nested
   public class Q5 {
     @Test
     public void findAndDelete() throws IOException {
@@ -269,7 +269,7 @@ public class StreamEditorTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q6 {
     @Test
     public void methodLineDeleteMustReturnALambda() {
