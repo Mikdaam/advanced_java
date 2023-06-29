@@ -10,7 +10,10 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class StreamEditor {
-    public enum Action { DELETE, PRINT }
+    public sealed interface Action {
+        record DeleteAction() implements Action {}
+        record PrintAction(String text) implements Action {}
+    }
 
     @FunctionalInterface
     public interface Command {
@@ -30,14 +33,14 @@ public class StreamEditor {
         if (lineNumber < 0) {
             throw new IllegalArgumentException("Can't accept number < 1");
         }
-        return (lineNo, line) -> lineNumber == lineNo ? Action.DELETE : Action.PRINT;
+        return (lineNo, line) -> lineNumber == lineNo ? new Action.DeleteAction() : new Action.PrintAction(line);
     }
 
     public static Command findAndDelete(Pattern pattern) {
         Objects.requireNonNull(pattern);
         return (lineNo, line) -> {
             var matcher = pattern.matcher(line);
-            return matcher.find() ? Action.DELETE : Action.PRINT;
+            return matcher.find() ? new Action.DeleteAction() : new Action.PrintAction(line);
         };
     }
 
@@ -48,10 +51,10 @@ public class StreamEditor {
         while ((line = lineNumberReader.readLine()) != null) {
             var currentLineNo = lineNumberReader.getLineNumber();
             var action = command.execute(currentLineNo, line);
-            if (action == Action.DELETE) {
-                continue;
+            switch (action) {
+                case Action.DeleteAction ignored -> {}
+                case Action.PrintAction printAction -> writer.append(printAction.text()).append("\n");
             }
-            writer.append(line).append("\n");
         }
     }
 
