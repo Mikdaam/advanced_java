@@ -3,15 +3,9 @@ package fr.practices.sed;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.io.PrintStream;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,11 +13,7 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StreamEditorTest {
   @Nested
@@ -72,7 +62,7 @@ public class StreamEditorTest {
     }
 
     @Test
-    public void transformPreconditions() throws IOException {
+    public void transformPreconditions() {
       var editor = new StreamEditor();
       assertAll(
           () -> assertThrows(NullPointerException.class, () -> editor.transform(null, new StringWriter())),
@@ -114,7 +104,7 @@ public class StreamEditorTest {
     }
 
     @Test
-    public void lineDeletePrecondition() throws IOException {
+    public void lineDeletePrecondition() {
       assertThrows(IllegalArgumentException.class, () -> StreamEditor.lineDelete(-1));
     }
 
@@ -244,7 +234,7 @@ public class StreamEditorTest {
     }
 
     @Test
-    public void findAndDeletePrecondition() throws IOException {
+    public void findAndDeletePrecondition() {
       assertThrows(NullPointerException.class, () -> StreamEditor.findAndDelete(null));
     }
 
@@ -428,7 +418,7 @@ public class StreamEditorTest {
           bar
           """;
       var writer = new StringWriter();
-      var command1 = StreamEditor.findAndDelete(Pattern.compile("foo"));;
+      var command1 = StreamEditor.findAndDelete(Pattern.compile("foo"));
       var command2 = StreamEditor.substitute(Pattern.compile("foo"), "hello");
       var editor = new StreamEditor(command1.andThen(command2));
       editor.transform(new LineNumberReader(new StringReader(text)), writer);

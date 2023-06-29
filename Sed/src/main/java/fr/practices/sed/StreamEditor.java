@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 public class StreamEditor {
     public sealed interface Action {
+        // Les lambdas sont utilises dans le cas ou le code est plus important que le nom
         enum DeleteAction implements Action { DELETE }
         record PrintAction(String text) implements Action {}
     }
