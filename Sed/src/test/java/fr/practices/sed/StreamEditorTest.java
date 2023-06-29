@@ -147,7 +147,7 @@ public class StreamEditorTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q3 {
     @Test
     public void main() {
@@ -196,7 +196,7 @@ public class StreamEditorTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q4 {
     @Test
     public void actionShouldBePublic() {
