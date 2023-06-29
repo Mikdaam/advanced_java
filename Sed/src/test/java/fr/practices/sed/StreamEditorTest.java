@@ -196,7 +196,7 @@ public class StreamEditorTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q4 {
     @Test
     public void actionShouldBePublic() {
@@ -208,7 +208,7 @@ public class StreamEditorTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q5 {
     @Test
     public void findAndDelete() throws IOException {

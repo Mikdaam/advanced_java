@@ -9,14 +9,23 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 public class StreamEditor {
-    private final LineDeleteCommand command;
-    public record LineDeleteCommand(int lineNumber) {
+    public enum Action { DELETE, PRINT }
+    public interface Command {
+        Action execute(int lineNo, String line);
+    }
+    public record LineDeleteCommand(int lineNumber) implements Command {
         public LineDeleteCommand {
             if (lineNumber < 0) {
                 throw new IllegalArgumentException("Can't accept number < 1");
             }
         }
+
+        @Override
+        public Action execute(int lineNo, String line) {
+            return lineNumber == lineNo ? Action.DELETE : Action.PRINT;
+        }
     }
+    private final LineDeleteCommand command;
 
     public StreamEditor() {
         this.command = new LineDeleteCommand(0);
@@ -39,9 +48,11 @@ public class StreamEditor {
         String line;
         while ((line = lineNumberReader.readLine()) != null) {
             var currentLineNo = lineNumberReader.getLineNumber();
-            if (currentLineNo != command.lineNumber()) {
-                writer.append(line).append("\n");
+            var action = command.execute(currentLineNo, line);
+            if (action == Action.DELETE) {
+                continue;
             }
+            writer.append(line).append("\n");
         }
     }
 
