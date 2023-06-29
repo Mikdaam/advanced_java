@@ -309,7 +309,7 @@ public class StreamEditorTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q8 {
     @Test
     public void substitute() throws IOException {
@@ -348,7 +348,7 @@ public class StreamEditorTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q9 {
     @Test
     public void actionShouldBeSealed() {

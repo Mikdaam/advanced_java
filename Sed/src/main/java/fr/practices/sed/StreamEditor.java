@@ -44,6 +44,15 @@ public class StreamEditor {
         };
     }
 
+    public static Command substitute(Pattern pattern, String replacement) {
+        Objects.requireNonNull(pattern);
+        Objects.requireNonNull(replacement);
+        return (lineNo, line) -> {
+            var matcher = pattern.matcher(line);
+            return new Action.PrintAction(matcher.replaceAll(replacement));
+        };
+    }
+
     public void transform(LineNumberReader lineNumberReader, Writer writer) throws IOException {
         Objects.requireNonNull(lineNumberReader, "Can't be null");
         Objects.requireNonNull(writer, "Can't accept null");
