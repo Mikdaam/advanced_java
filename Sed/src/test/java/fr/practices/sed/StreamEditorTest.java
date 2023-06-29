@@ -269,7 +269,7 @@ public class StreamEditorTest {
     }
   }
 
-  /*@Nested
+  @Nested
   public class Q6 {
     @Test
     public void methodLineDeleteMustReturnALambda() {
@@ -296,7 +296,7 @@ public class StreamEditorTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q7 {
     @Test
     public void actionShouldBeSealed() {

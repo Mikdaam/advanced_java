@@ -11,51 +11,34 @@ import java.util.regex.Pattern;
 
 public class StreamEditor {
     public enum Action { DELETE, PRINT }
+
+    @FunctionalInterface
     public interface Command {
         Action execute(int lineNo, String line);
-    }
-    public record LineDeleteCommand(int lineNumber) implements Command {
-        public LineDeleteCommand {
-            if (lineNumber < 0) {
-                throw new IllegalArgumentException("Can't accept number < 1");
-            }
-        }
-
-        @Override
-        public Action execute(int lineNo, String line) {
-            return lineNumber == lineNo ? Action.DELETE : Action.PRINT;
-        }
-    }
-    public record FindAndDelete(Pattern pattern) implements Command {
-        public FindAndDelete {
-            Objects.requireNonNull(pattern);
-        }
-        @Override
-        public Action execute(int lineNo, String line) {
-            var matcher = pattern.matcher(line);
-            return matcher.find() ? Action.DELETE : Action.PRINT;
-        }
     }
     private final Command command;
 
     public StreamEditor() {
-        this.command = new LineDeleteCommand(0);
+        this.command = lineDelete(0);
     }
 
     public StreamEditor(Command command) {
         this.command = command;
     }
 
-    public static LineDeleteCommand lineDelete(int lineNumber) {
-        if (lineNumber < 1) {
+    public static Command lineDelete(int lineNumber) {
+        if (lineNumber < 0) {
             throw new IllegalArgumentException("Can't accept number < 1");
         }
-        return new LineDeleteCommand(lineNumber);
+        return (lineNo, line) -> lineNumber == lineNo ? Action.DELETE : Action.PRINT;
     }
 
-    public static FindAndDelete findAndDelete(Pattern pattern) {
+    public static Command findAndDelete(Pattern pattern) {
         Objects.requireNonNull(pattern);
-        return new FindAndDelete(pattern);
+        return (lineNo, line) -> {
+            var matcher = pattern.matcher(line);
+            return matcher.find() ? Action.DELETE : Action.PRINT;
+        };
     }
 
     public void transform(LineNumberReader lineNumberReader, Writer writer) throws IOException {
@@ -83,7 +66,7 @@ public class StreamEditor {
                 var lineNumberReader = new LineNumberReader(reader);
                 var writer = new OutputStreamWriter(System.out)
         ) {
-            new StreamEditor(new LineDeleteCommand(2)).transform(lineNumberReader,writer);
+            new StreamEditor(lineDelete(2)).transform(lineNumberReader,writer);
         } catch (IOException e) {
             throw new AssertionError(e);
         }
