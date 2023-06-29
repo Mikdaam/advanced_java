@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class StreamEditor {
     public sealed interface Action {
-        record DeleteAction() implements Action {}
+        enum DeleteAction implements Action { DELETE }
         record PrintAction(String text) implements Action {}
     }
 
@@ -33,14 +33,14 @@ public class StreamEditor {
         if (lineNumber < 0) {
             throw new IllegalArgumentException("Can't accept number < 1");
         }
-        return (lineNo, line) -> lineNumber == lineNo ? new Action.DeleteAction() : new Action.PrintAction(line);
+        return (lineNo, line) -> lineNumber == lineNo ? Action.DeleteAction.DELETE : new Action.PrintAction(line);
     }
 
     public static Command findAndDelete(Pattern pattern) {
         Objects.requireNonNull(pattern);
         return (lineNo, line) -> {
             var matcher = pattern.matcher(line);
-            return matcher.find() ? new Action.DeleteAction() : new Action.PrintAction(line);
+            return matcher.find() ? Action.DeleteAction.DELETE : new Action.PrintAction(line);
         };
     }
 
