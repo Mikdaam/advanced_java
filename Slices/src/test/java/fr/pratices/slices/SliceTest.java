@@ -123,7 +123,7 @@ public class SliceTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q3 {
     @Test
     public void sliceArrayFromTo() {
@@ -212,7 +212,7 @@ public class SliceTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q4 {
     @Test
     public void subArraySlice() {

@@ -13,6 +13,11 @@ public sealed interface Slice<T> {
 		return new ArraySlice<>(array);
 	}
 
+	static <U> Slice<U> array(U[] array, int from, int to) {
+		Objects.checkFromToIndex(from, to, array.length);
+		return new SubArraySlice<>(array, from, to);
+	}
+
 	final class ArraySlice<T> implements Slice<T> {
 		private final T[] array;
 
@@ -33,6 +38,37 @@ public sealed interface Slice<T> {
 		@Override
 		public String toString() {
 			return Arrays.stream(array)
+					.map(Objects::toString)
+					.collect(Collectors.joining(", ", "[", "]"));
+		}
+	}
+
+	final class SubArraySlice<T> implements Slice<T> {
+		private final T[] array;
+		private final int from;
+		private final int to;
+
+		SubArraySlice(T[] array, int from, int to) {
+			Objects.requireNonNull(array);
+			this.array = array;
+			this.from = from;
+			this.to = to;
+		}
+
+		@Override
+		public int size() {
+			return to - from;
+		}
+
+		@Override
+		public T get(int index) {
+			Objects.checkIndex(index, size());
+			return array[from + index];
+		}
+
+		@Override
+		public String toString() {
+			return Arrays.stream(array, from, to)
 					.map(Objects::toString)
 					.collect(Collectors.joining(", ", "[", "]"));
 		}
