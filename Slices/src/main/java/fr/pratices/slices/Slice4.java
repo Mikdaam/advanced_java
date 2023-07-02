@@ -9,7 +9,7 @@ public interface Slice4<T> {
 
 	T get(int index);
 
-	/*Slice4<T> subSlice(int from, int to);*/
+	Slice4<T> subSlice(int from, int to);
 
 	static <U> Slice4<U> array(U[] array) {
 		return array(array, 0, array.length);
@@ -41,6 +41,12 @@ class SliceImpl<T> implements Slice4<T> {
 	public T get(int index) {
 		Objects.checkIndex(index, size());
 		return array[from + index];
+	}
+
+	@Override
+	public Slice4<T> subSlice(int from, int to) {
+		Objects.checkFromToIndex(from, to, size());
+		return new SliceImpl<>(array, this.from + from, this.from + to);
 	}
 
 	@Override
