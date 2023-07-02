@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SliceTest {
-  /*@Nested
+  @Nested
   public class Q1 {
     @Test
     public void sliceArray() {
@@ -98,7 +98,7 @@ public class SliceTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q2 {
     @Test
     public void sliceArrayPrinted() {
