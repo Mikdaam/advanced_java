@@ -217,7 +217,7 @@ public class Slice2Test {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q4 {
     @Test
     public void subArraySlice() {
@@ -396,5 +396,5 @@ public class Slice2Test {
       var slice = Slice2.array(array).subSlice(1, 4).subSlice(1, 2);
       assertEquals("[null]", "" + slice);
     }
-  }*/
+  }
 }

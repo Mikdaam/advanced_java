@@ -9,7 +9,7 @@ public sealed interface Slice2<T> {
 
 	T get(int index);
 
-	/* Slice2<T> subSlice(int from, int to); */
+	Slice2<T> subSlice(int from, int to);
 
 	static <U> Slice2<U> array(U[] array) {
 		return new ArraySlice<>(array);
@@ -17,7 +17,7 @@ public sealed interface Slice2<T> {
 
 	static <U> Slice2<U> array(U[] array, int from, int to) {
 		Objects.checkFromToIndex(from, to, array.length);
-		return new ArraySlice<U>(array).new SubArraySlice(from, to);
+		return new ArraySlice<U>(array).subSlice(from, to);
 	}
 
 	final class ArraySlice<T> implements Slice2<T> {
@@ -37,6 +37,12 @@ public sealed interface Slice2<T> {
 			public T get(int index) {
 				Objects.checkIndex(index, size());
 				return array[from + index];
+			}
+
+			@Override
+			public Slice2<T> subSlice(int from, int to) {
+				Objects.checkFromToIndex(from, to, size());
+				return new SubArraySlice(this.from + from, this.from + to);
 			}
 
 			@Override
@@ -62,11 +68,11 @@ public sealed interface Slice2<T> {
 			return array[index];
 		}
 
-		/*@Override
+		@Override
 		public Slice2<T> subSlice(int from, int to) {
 			Objects.checkFromToIndex(from, to, size());
-			return new SubArraySlice<>(array, from, to);
-		}*/
+			return new SubArraySlice(from, to);
+		}
 
 		@Override
 		public String toString() {
