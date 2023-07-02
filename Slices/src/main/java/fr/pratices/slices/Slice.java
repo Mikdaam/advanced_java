@@ -1,6 +1,8 @@
 package fr.pratices.slices;
 
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public sealed interface Slice<T> {
 	int size();
@@ -26,6 +28,13 @@ public sealed interface Slice<T> {
 		@Override
 		public T get(int index) {
 			return array[index];
+		}
+
+		@Override
+		public String toString() {
+			return Arrays.stream(array)
+					.map(Objects::toString)
+					.collect(Collectors.joining(", ", "[", "]"));
 		}
 	}
 }
