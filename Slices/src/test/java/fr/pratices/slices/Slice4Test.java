@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Slice4Test {
-  /*@Nested
+  @Nested
   public class Q1 {
     @Test
     public void sliceArray() {
@@ -194,7 +194,7 @@ public class Slice4Test {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q4 {
     @Test
     public void subArraySlice() {
