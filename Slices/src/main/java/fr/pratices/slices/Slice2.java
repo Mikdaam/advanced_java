@@ -15,10 +15,40 @@ public sealed interface Slice2<T> {
 		return new ArraySlice<>(array);
 	}
 
-	final class ArraySlice<T> implements Slice2<T> {
-		private final T[] array;
+	static <U> Slice2<U> array(U[] array, int from, int to) {
+		Objects.checkFromToIndex(from, to, array.length);
+		return new ArraySlice<U>(array).new SubArraySlice(from, to);
+	}
 
-		 ArraySlice(T[] array) {
+	final class ArraySlice<T> implements Slice2<T> {
+		final class SubArraySlice implements Slice2<T> {
+			private final int from;
+			private final int to;
+			SubArraySlice(int from, int to) {
+				this.from = from;
+				this.to = to;
+			}
+			@Override
+			public int size() {
+				return to - from;
+			}
+
+			@Override
+			public T get(int index) {
+				Objects.checkIndex(index, size());
+				return array[from + index];
+			}
+
+			@Override
+			public String toString() {
+				return Arrays.stream(array, from, to)
+						.map(Objects::toString)
+						.collect(Collectors.joining(", ", "[", "]"));
+			}
+		}
+
+		private final T[] array;
+		ArraySlice(T[] array) {
 			Objects.requireNonNull(array);
 			this.array = array;
 		}
