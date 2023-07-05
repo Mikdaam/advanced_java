@@ -174,7 +174,7 @@ public class DynamicHashSetTest {
     }
   }
 
-  /*@Nested
+  @Nested
   public class Q3 {
     @Test
     public void shouldNotTakeTooLongToAskContains() {
@@ -192,7 +192,7 @@ public class DynamicHashSetTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Exercice3 {
     @Test
     public void shouldTakeTheRightTypeOfConsumerInForEach() {
