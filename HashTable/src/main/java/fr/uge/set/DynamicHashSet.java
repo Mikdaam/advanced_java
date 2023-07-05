@@ -1,5 +1,6 @@
 package fr.uge.set;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -20,7 +21,7 @@ public class DynamicHashSet<T> {
         entries[hash] = new Entry<>(value, head);
         size++;
 
-        if (capacity < (size / 2)) {
+        /*if (capacity < (size / 2)) {
             capacity *= 2;
             size = 0;
             var newEntries = (Entry<T>[]) new Entry<?>[capacity];
@@ -35,14 +36,14 @@ public class DynamicHashSet<T> {
                 }
             }
             entries = newEntries;
-        }
+        }*/
     }
 
     public int size() {
         return size;
     }
 
-    public void forEach(Consumer<T> consumer) {
+    public void forEach(Consumer<? super T> consumer) {
         Objects.requireNonNull(consumer);
         for (var entry : entries) {
             var current = entry;
@@ -56,6 +57,11 @@ public class DynamicHashSet<T> {
     public boolean contains(Object value) {
         Objects.requireNonNull(value);
         return isPresent(value);
+    }
+
+    public void addAll(Collection<? extends T> elements) {
+        Objects.requireNonNull(elements);
+        elements.forEach(this::add);
     }
 
     private boolean isPresent(Object value) {

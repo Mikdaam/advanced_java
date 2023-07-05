@@ -192,7 +192,7 @@ public class DynamicHashSetTest {
     }
   }
 
-  /*@Nested
+  @Nested
   public class Exercice3 {
     @Test
     public void shouldTakeTheRightTypeOfConsumerInForEach() {
@@ -232,5 +232,5 @@ public class DynamicHashSetTest {
       var set = new DynamicHashSet<String>();
       assertThrows(NullPointerException.class, () -> set.addAll(null));
     }
-  }*/
+  }
 }
