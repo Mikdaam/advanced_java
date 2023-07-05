@@ -35,12 +35,12 @@ public class DynamicHashSet<T> {
         }
     }
 
-    public boolean contains(T value) {
+    public boolean contains(Object value) {
         Objects.requireNonNull(value);
         return isPresent(value);
     }
 
-    private boolean isPresent(T value) {
+    private boolean isPresent(Object value) {
         for (var entry : entries) {
             var current = entry;
             while (current != null) {

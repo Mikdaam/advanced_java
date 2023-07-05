@@ -165,7 +165,7 @@ public class DynamicHashSetTest {
     }
   }
 
-  /*@Nested
+  @Nested
   public class Q2 {
     @Test
     public void shouldNotFindAnythingIfItsTheWrongType() {
@@ -174,7 +174,7 @@ public class DynamicHashSetTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q3 {
     @Test
     public void shouldNotTakeTooLongToAskContains() {
