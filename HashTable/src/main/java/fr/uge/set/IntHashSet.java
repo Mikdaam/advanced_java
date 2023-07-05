@@ -9,4 +9,11 @@ public class IntHashSet {
     // * si l'on declare `Entry` comme classe interne, on ne pourra pas voir l'implementation de l'exterieur, ce qui est une bonne pratique.
     // * Sa visibilite doit etre `private`
     private record Entry(int value, Entry next) {}
+
+    private final int capacity = 8;
+    private final Entry[] table = new Entry[capacity];
+
+    private int hash(int value) {
+        return value >> (capacity - 1);
+    }
 }
