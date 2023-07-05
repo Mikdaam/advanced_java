@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 @SuppressWarnings("static-method")
 public class DynamicHashSetTest {
-  /*@Nested
+  @Nested
   public class Q1 {
 
     @Test
@@ -165,7 +165,7 @@ public class DynamicHashSetTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q2 {
     @Test
     public void shouldNotFindAnythingIfItsTheWrongType() {
