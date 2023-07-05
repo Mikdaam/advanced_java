@@ -175,7 +175,7 @@ public class IntHashSetTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q5 {
 
     @Test
@@ -209,5 +209,5 @@ public class IntHashSetTest {
       assertTrue(set.contains(Integer.MAX_VALUE));
       assertEquals(2, set.size());
     }
-  }*/
+  }
 }

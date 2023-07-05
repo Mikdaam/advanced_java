@@ -18,10 +18,6 @@ public class IntHashSet {
     private final Entry[] entries = new Entry[capacity];
     private int size = 0;
 
-    public IntHashSet() {
-
-    }
-
     public void add(int value) {
         if (isPresent(value)) return;
         int hash = hash(value);
@@ -47,6 +43,10 @@ public class IntHashSet {
                 current = current.next();
             }
         }
+    }
+
+    public boolean contains(int value) {
+        return isPresent(value);
     }
 
     private boolean isPresent(int value) {
