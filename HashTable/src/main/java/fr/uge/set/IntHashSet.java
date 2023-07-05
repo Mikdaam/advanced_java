@@ -10,10 +10,39 @@ public class IntHashSet {
     // * Sa visibilite doit etre `private`
     private record Entry(int value, Entry next) {}
 
-    private final int capacity = 8;
-    private final Entry[] table = new Entry[capacity];
+    private final int capacity = 2;
+    private final Entry[] entries = new Entry[capacity];
+    private int size = 0;
+
+    public IntHashSet() {
+
+    }
+
+    public void add(int value) {
+        if (isPresent(value)) return;
+        int hash = hash(value);
+        var head = entries[hash];
+        entries[hash] = new Entry(value, head);
+        size++;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    private boolean isPresent(int value) {
+        for (var entry : entries) {
+            var current = entry;
+            while (current != null) {
+                if (current.value == value) return true;
+                current = current.next();
+            }
+        }
+
+        return false;
+    }
 
     private int hash(int value) {
-        return value >> (capacity - 1);
+        return value & (capacity - 1);
     }
 }

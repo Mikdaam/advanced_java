@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.RecordComponent;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,7 +62,7 @@ public class IntHashSetTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q3 {
 
     @Test
@@ -118,7 +120,7 @@ public class IntHashSetTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q4 {
 
     @Test
