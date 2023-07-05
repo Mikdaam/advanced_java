@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.RecordComponent;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -120,7 +122,7 @@ public class IntHashSetTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q4 {
 
     @Test
@@ -173,7 +175,7 @@ public class IntHashSetTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q5 {
 
     @Test
