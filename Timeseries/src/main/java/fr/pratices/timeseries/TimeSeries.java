@@ -1,8 +1,6 @@
 package fr.pratices.timeseries;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
@@ -20,7 +18,7 @@ public class TimeSeries<E> {
 			return timestamp + " | " + element;
 		}
 	}
-	class Index {
+	class Index implements Iterable<Data<E>> {
 		private final int[] indexes;
 
 		private Index(int[] indexes) {
@@ -38,6 +36,27 @@ public class TimeSeries<E> {
 					.mapToObj(data::get)
 					.map(Data::toString)
 					.collect(Collectors.joining("\n"));
+		}
+
+		@Override
+		public Iterator<Data<E>> iterator() {
+			return new Iterator<>() {
+				private int index = 0;
+				@Override
+				public boolean hasNext() {
+					return index < indexes.length;
+				}
+
+				@Override
+				public Data<E> next() {
+					if (!hasNext()) {
+						throw new NoSuchElementException();
+					}
+					var element = data.get(indexes[index]);
+					index++;
+					return element;
+				}
+			};
 		}
 
 		public void forEach(Consumer<? super Data<E>> consumer) {

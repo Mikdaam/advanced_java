@@ -315,7 +315,7 @@ public class TimeSeriesTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q7 {
 
     @Test
@@ -428,7 +428,7 @@ public class TimeSeriesTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q8 {
 
     @Test
