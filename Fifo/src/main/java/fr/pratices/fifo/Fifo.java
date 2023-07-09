@@ -1,5 +1,7 @@
 package fr.pratices.fifo;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -41,6 +43,28 @@ public class Fifo<E> {
 	public int size() { return size; }
 
 	public boolean isEmpty() { return size == 0; }
+
+	public Iterator<E> iterator() {
+		return new Iterator<E>() {
+			private int cursor = head;
+			private int i = 0;
+			@Override
+			public boolean hasNext() {
+				return i < size;
+			}
+
+			@Override
+			public E next() {
+				if (!hasNext()) {
+					throw new NoSuchElementException();
+				}
+				var element = elements[cursor];
+				cursor = (cursor + 1) % maxElements;
+				i++;
+				return element;
+			}
+		};
+	}
 
 	@Override
 	public String toString() {

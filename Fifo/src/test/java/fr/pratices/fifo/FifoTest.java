@@ -193,7 +193,7 @@ public class FifoTest {
     }
   }
 
-  /*@Nested
+  @Nested
   public class Q9 {
 
     @Test
@@ -310,26 +310,26 @@ public class FifoTest {
     //this test needs a lot of memory (more than 8 gigs)
     // so it is disabled by default
     // use the option -Xmx9g when running the VM
-// @Test
-//  public void shouldNotGetAnOverflowErrorWhenIteratingOverAnAlmostMaximalCapacityFifo() {
-//    var fifo = new Fifo<Integer>(Integer.MAX_VALUE - 8);
-//    for(var i = 0; i < Integer.MAX_VALUE / 2; i++) {
-//      fifo.offer(i % 100);
-//      fifo.poll();
-//    }
-//    for(var i = 0; i < Integer.MAX_VALUE - 8; i++) {
-//      fifo.offer(i % 100);
-//    }
-//    var counter = 0;
-//    for(var it = fifo.iterator(); it.hasNext(); counter = (counter + 1) % 100) {
-//      assertEquals(counter, (int)it.next());
-//    }
-//  }
+    @Test
+    public void shouldNotGetAnOverflowErrorWhenIteratingOverAnAlmostMaximalCapacityFifo() {
+      var fifo = new Fifo<Integer>(Integer.MAX_VALUE - 8);
+      for(var i = 0; i < Integer.MAX_VALUE / 2; i++) {
+        fifo.offer(i % 100);
+        fifo.poll();
+      }
+      for(var i = 0; i < Integer.MAX_VALUE - 8; i++) {
+        fifo.offer(i % 100);
+      }
+      var counter = 0;
+      for(var it = fifo.iterator(); it.hasNext(); counter = (counter + 1) % 100) {
+        assertEquals(counter, (int)it.next());
+      }
+    }
 
   }
 
 
-  @Nested
+  /*@Nested
   public class Q10 {
 
     @Test
