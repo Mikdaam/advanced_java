@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IntTableTest {
-  /*@Nested
+  @Nested
   public class Q1 {
     @Test
     public void createEmpty() {
@@ -211,7 +211,7 @@ public class IntTableTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q5 {
     @Test
     public void from() {
