@@ -121,7 +121,7 @@ public class TaggedBufferTest {
     }
   }
 
-  /*@Nested
+  @Nested
   class Q3 {
 
     @Test @Tag("Q3")
@@ -140,7 +140,7 @@ public class TaggedBufferTest {
       );
     }
 
-    /*@Test @Tag("Q3")
+    @Test @Tag("Q3")
     public void findFirstWithIntegers() {
       var buffer = new TaggedBuffer<Integer>(i -> i % 2 == 0);
       buffer.add(1);
@@ -190,7 +190,7 @@ public class TaggedBufferTest {
     }
   }
 
-  @Nested
+  /*@Nested
   class Q4 {
 
     @Test @Tag("Q4")
