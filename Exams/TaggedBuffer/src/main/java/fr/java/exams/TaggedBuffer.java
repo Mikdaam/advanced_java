@@ -3,6 +3,7 @@ package fr.java.exams;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class TaggedBuffer<E> {
@@ -47,6 +48,17 @@ public class TaggedBuffer<E> {
 		/*return Arrays.stream(elements, 0, size)
 				.filter(e -> onlyTagged || predicate.test(e))
 				.findFirst();*/
+	}
+
+	public void forEach(boolean onlyTagged, Consumer<E> consumer) {
+		Objects.requireNonNull(consumer);
+		if (onlyTagged) {
+			Arrays.stream(elements, 0, size)
+					.filter(predicate)
+					.forEach(consumer);
+		} else {
+			Arrays.stream(elements, 0, size).forEach(consumer);
+		}
 	}
 
 	private void resize() {
