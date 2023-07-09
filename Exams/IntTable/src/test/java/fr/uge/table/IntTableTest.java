@@ -1,4 +1,4 @@
-package fr.exams.inttable;
+package fr.uge.table;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
