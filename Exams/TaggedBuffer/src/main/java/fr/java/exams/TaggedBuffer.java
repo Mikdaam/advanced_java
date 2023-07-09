@@ -3,6 +3,8 @@ package fr.java.exams;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class TaggedBuffer<E> {
 	class Index extends AbstractList<E> implements RandomAccess {
@@ -62,7 +64,7 @@ public class TaggedBuffer<E> {
 		}
 		return Arrays.stream(elements).findFirst();
 		/*return Arrays.stream(elements, 0, size)
-				.filter(e -> onlyTagged || predicate.test(e))
+				.filter(e -> onlyTagged && predicate.test(e))
 				.findFirst();*/
 	}
 
@@ -130,6 +132,47 @@ public class TaggedBuffer<E> {
 			}
 		}
 		return new Index(indexes);
+	}
+
+	@SafeVarargs
+	private Spliterator<E> fromArray(int start, int end, E... array) {
+		return new Spliterator<>() {
+			private int i = start;
+			@Override
+			public boolean tryAdvance(Consumer<? super E> action) {
+				if (i < end) {
+					action.accept(array[i++]);
+					return true;
+				}
+				return false;
+			}
+
+			@Override
+			public Spliterator<E> trySplit() {
+				var middle = (i + end) >>> 1;
+				if (i == middle) {
+					return null;
+				}
+				var spliterator = fromArray(i, middle, array);
+				i = middle;
+				return spliterator;
+			}
+
+			@Override
+			public long estimateSize() {
+				return end - i;
+			}
+
+			@Override
+			public int characteristics() {
+				return SIZED|SUBSIZED;
+			}
+		};
+	}
+
+	public Stream<E> stream(boolean onlyTagged) {
+		var spliterator = fromArray(0, size, elements);
+		return StreamSupport.stream(spliterator, false);
 	}
 
 	private void resize() {
