@@ -61,14 +61,13 @@ public class TimeSeries<E> {
 
 		public void forEach(Consumer<? super Data<E>> consumer) {
 			Objects.requireNonNull(consumer);
-			var elements = Arrays.stream(indexes)
-					.mapToObj(data::get)
-					.toList();
-
-			elements.forEach(consumer);
+			for (var index : indexes) {
+				var element = data.get(index);
+				consumer.accept(element);
+			}
 		}
 
-		public Index or(Index other) {
+		public Index or(TimeSeries<? extends E>.Index other) {
 			Objects.requireNonNull(other);
 			if (!getTimeSeriesInstance().equals(other.getTimeSeriesInstance())) {
 				throw new IllegalArgumentException();
@@ -77,7 +76,7 @@ public class TimeSeries<E> {
 			return new Index(fullIndexes);
 		}
 
-		public Index and(Index other) {
+		public Index and(TimeSeries<? extends E>.Index other) {
 			Objects.requireNonNull(other);
 			if (!getTimeSeriesInstance().equals(other.getTimeSeriesInstance())) {
 				throw new IllegalArgumentException();

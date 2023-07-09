@@ -658,7 +658,7 @@ public class TimeSeriesTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q10 {
 
     @Test
@@ -676,5 +676,5 @@ public class TimeSeriesTest {
       var index = timeSerie.index().and(timeSerie2.index());
       assertEquals(0, index.size());
     }
-  }*/
+  }
 }
