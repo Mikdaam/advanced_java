@@ -73,8 +73,18 @@ public class TimeSeries<E> {
 			if (!getTimeSeriesInstance().equals(other.getTimeSeriesInstance())) {
 				throw new IllegalArgumentException();
 			}
-			var fullIndexes = IntStream.concat(IntStream.of(indexes), IntStream.of(other.indexes)).distinct().toArray();
+			var fullIndexes = IntStream.concat(IntStream.of(indexes), IntStream.of(other.indexes)).distinct().sorted().toArray();
 			return new Index(fullIndexes);
+		}
+
+		public Index and(Index other) {
+			Objects.requireNonNull(other);
+			if (!getTimeSeriesInstance().equals(other.getTimeSeriesInstance())) {
+				throw new IllegalArgumentException();
+			}
+			var baseIndexes = IntStream.of(indexes).boxed().collect(Collectors.toSet());
+			var remainingIndexes = IntStream.of(other.indexes).filter(baseIndexes::contains).toArray();
+			return new Index(remainingIndexes);
 		}
 
 		private TimeSeries<E> getTimeSeriesInstance() {
