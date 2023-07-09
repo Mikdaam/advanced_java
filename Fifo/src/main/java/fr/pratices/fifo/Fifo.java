@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class Fifo<E> {
+public class Fifo<E> implements Iterable<E> {
 	private final E[] elements;
 	private final int maxElements;
 	private int head, tail, size;
