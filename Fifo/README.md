@@ -37,7 +37,7 @@ Indication : Vous avez le droit d'utiliser 2 compteurs.
 
 8. Rappelez quel est le principe d'un itérateur.
 Quel doit être le type de retour de la méthode iterator() ?
-
+> Le type de retour de la methode `iterator()` est l'interface `Iterator`
 9. Implanter la méthode iterator().
 Note : ici, pour simplifier le problème, on considérera que l'itérateur ne peut pas supprimer des éléments pendant son parcours.
 
