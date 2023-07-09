@@ -32,6 +32,7 @@ public class Fifo<E> {
 			throw new IllegalStateException();
 		}
 		var element = elements[head];
+		elements[head] = null;
 		head = (head + 1) % maxElements;
 		size--;
 		return element;

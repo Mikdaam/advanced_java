@@ -31,6 +31,8 @@ Indication : Vous avez le droit d'utiliser 2 compteurs.
 
 6. Rappelez ce qu'est un memory leak en Java et assurez-vous que votre implantation n'a pas ce comportement indésirable.
 
+> Un `memory leak` est la fuite de donnée dans le programme. <br>
+> Par exemple, le fait d'oublier de desalouer un objet.
 7. Ajouter une méthode size et une méthode isEmpty.
 
 8. Rappelez quel est le principe d'un itérateur.
