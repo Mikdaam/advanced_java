@@ -67,6 +67,19 @@ public class TimeSeries<E> {
 
 			elements.forEach(consumer);
 		}
+
+		public Index or(Index other) {
+			Objects.requireNonNull(other);
+			if (!getTimeSeriesInstance().equals(other.getTimeSeriesInstance())) {
+				throw new IllegalArgumentException();
+			}
+			var fullIndexes = IntStream.concat(IntStream.of(indexes), IntStream.of(other.indexes)).distinct().toArray();
+			return new Index(fullIndexes);
+		}
+
+		private TimeSeries<E> getTimeSeriesInstance() {
+			return TimeSeries.this;
+		}
 	}
 
 	private final ArrayList<Data<E>> data = new ArrayList<>();
