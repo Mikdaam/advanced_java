@@ -2,7 +2,7 @@ package fr.pratices.fifo;
 
 import java.util.*;
 
-public class ResizeableFifo<E> implements Iterable<E> {
+public class ResizeableFifo<E> extends AbstractQueue<E> {
 	private E[] elements;
 	private int capacity;
 	private int head, tail, size;
@@ -16,7 +16,8 @@ public class ResizeableFifo<E> implements Iterable<E> {
 		elements = (E[]) new Object[initialCapacity];
 	}
 
-	public void offer(E element) {
+	@Override
+	public boolean offer(E element) {
 		Objects.requireNonNull(element);
 		if (size == capacity) {
 			resize();
@@ -24,8 +25,11 @@ public class ResizeableFifo<E> implements Iterable<E> {
 		elements[tail] = element;
 		tail = (tail + 1) % capacity;
 		size++;
+
+		return true;
 	}
 
+	@Override
 	public E poll() {
 		if (size == 0) {
 			return null;
@@ -37,10 +41,21 @@ public class ResizeableFifo<E> implements Iterable<E> {
 		return element;
 	}
 
+	@Override
+	public E peek() {
+		if (isEmpty()) {
+			return null;
+		}
+		return elements[head];
+	}
+
+	@Override
 	public int size() { return size; }
 
+	@Override
 	public boolean isEmpty() { return size == 0; }
 
+	@Override
 	public Iterator<E> iterator() {
 		return new Iterator<E>() {
 			private int cursor = head;

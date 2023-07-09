@@ -79,7 +79,7 @@ public class ResizeableFifoTest {
 
   // Q2
 
-  /* @Test @Tag("Q2")
+  @Test @Tag("Q2")
   public void shouldGetAnErrorWhenCapacityIsNonPositive() {
     assertThrows(IllegalArgumentException.class, () -> new ResizeableFifo<>(-3));
   }
@@ -370,5 +370,5 @@ public class ResizeableFifoTest {
       assertEquals(i++, value);
     }
     assertEquals(100, fifo.size());
-  }*/
+  }
 }
