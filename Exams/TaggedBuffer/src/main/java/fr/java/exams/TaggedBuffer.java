@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class TaggedBuffer<E> {
-	class Index extends AbstractList<E> implements RandomAccess {
+	private class Index extends AbstractList<E> implements RandomAccess {
 		private final int[] indexes;
 		private Index(int[] indexes) {
 			Objects.requireNonNull(indexes);
@@ -53,61 +53,28 @@ public class TaggedBuffer<E> {
 	}
 
 	public Optional<E> findFirst(boolean onlyTagged) {
-		if (size == 0) {
-			return Optional.empty();
-		}
-
-		if (onlyTagged) {
-			return Arrays.stream(elements)
-					.filter(predicate)
-					.findFirst();
-		}
-		return Arrays.stream(elements).findFirst();
-		/*return Arrays.stream(elements, 0, size)
-				.filter(e -> onlyTagged && predicate.test(e))
-				.findFirst();*/
+		if (size == 0) { return Optional.empty();}
+		Predicate<? super E> finalPredicate = onlyTagged ? predicate : __ -> true;
+		return Arrays.stream(elements, 0, size)
+				.filter(finalPredicate)
+				.findFirst();
 	}
 
 	public void forEach(boolean onlyTagged, Consumer<E> consumer) {
 		Objects.requireNonNull(consumer);
-		if (onlyTagged) {
-			Arrays.stream(elements, 0, size)
-					.filter(predicate)
-					.forEach(consumer);
-		} else {
-			Arrays.stream(elements, 0, size).forEach(consumer);
-		}
+		Predicate<? super E> finalPredicate = onlyTagged ? predicate : __ -> true;
+		Arrays.stream(elements, 0, size).filter(finalPredicate).forEach(consumer);
 	}
 
 	public Iterator<E> iterator(boolean onlyTagged) {
-		if (onlyTagged) {
-			return new Iterator<>() {
-				private int index = 0;
-				private final int itSize = taggedSize;
-				@SuppressWarnings("unchecked")
-				private final E[] itElements = (E[]) Arrays.stream(elements, 0, size).filter(predicate).toArray();
-				@Override
-				public boolean hasNext() {
-					return index < itSize;
-				}
-
-				@Override
-				public E next() {
-					if (!hasNext()) {
-						throw new NoSuchElementException();
-					}
-					var element = itElements[index];
-					index++;
-					return element;
-				}
-			};
-		}
-
 		return new Iterator<>() {
 			private int index = 0;
+			private int position = 0;
+			private final E[] copy = elements;
+			private final int finalSize = onlyTagged ? taggedSize : size;
 			@Override
 			public boolean hasNext() {
-				return index < size;
+				return index < finalSize;
 			}
 
 			@Override
@@ -115,7 +82,18 @@ public class TaggedBuffer<E> {
 				if (!hasNext()) {
 					throw new NoSuchElementException();
 				}
-				var element = elements[index];
+				E element;
+
+				if (onlyTagged) {
+					while (true) {
+						element = copy[position++];
+						if (predicate.test(element)) {
+							index++;
+							return element;
+						}
+					}
+				}
+				element = copy[position++];
 				index++;
 				return element;
 			}
@@ -135,13 +113,18 @@ public class TaggedBuffer<E> {
 	}
 
 	@SafeVarargs
-	private Spliterator<E> fromArray(int start, int end, E... array) {
+	private Spliterator<E> fromArray(boolean onlyTagged, int start, int end, E... array) {
+		Predicate<? super E> finalPredicate = onlyTagged ? predicate : __ -> true;
 		return new Spliterator<>() {
 			private int i = start;
 			@Override
 			public boolean tryAdvance(Consumer<? super E> action) {
 				if (i < end) {
-					action.accept(array[i++]);
+					var element = array[i++];
+					if (finalPredicate.test(element)) {
+						action.accept(element);
+						return true;
+					}
 					return true;
 				}
 				return false;
@@ -153,7 +136,7 @@ public class TaggedBuffer<E> {
 				if (i == middle) {
 					return null;
 				}
-				var spliterator = fromArray(i, middle, array);
+				var spliterator = fromArray(onlyTagged, i, middle, array);
 				i = middle;
 				return spliterator;
 			}
@@ -165,13 +148,13 @@ public class TaggedBuffer<E> {
 
 			@Override
 			public int characteristics() {
-				return SIZED|SUBSIZED;
+				return ORDERED|NONNULL|(onlyTagged ? 0 : SIZED|SUBSIZED);
 			}
 		};
 	}
 
 	public Stream<E> stream(boolean onlyTagged) {
-		var spliterator = fromArray(0, size, elements);
+		var spliterator = fromArray(onlyTagged, 0, size, elements);
 		return StreamSupport.stream(spliterator, false);
 	}
 

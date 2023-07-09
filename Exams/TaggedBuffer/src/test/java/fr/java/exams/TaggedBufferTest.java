@@ -643,7 +643,7 @@ public class TaggedBufferTest {
   }
 
   
-  /*@Nested
+  @Nested
   class Q8 {
 
     @Test @Tag("Q8")
@@ -719,5 +719,5 @@ public class TaggedBufferTest {
       var spliterator = buffer.stream(false).spliterator();
       assertTrue(spliterator.hasCharacteristics(Spliterator.SUBSIZED));
     }
-  }*/
+  }
 }
