@@ -1,6 +1,7 @@
 package fr.pratices.fifo;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 public class Fifo<E> {
 	private final E[] elements;
@@ -34,5 +35,17 @@ public class Fifo<E> {
 		head = (head + 1) % maxElements;
 		size--;
 		return element;
+	}
+
+	@Override
+	public String toString() {
+		var joiner = new StringJoiner(", ", "[", "]");
+		int count = head;
+		for (int i = 0; i < size; i++) {
+			joiner.add(elements[count].toString());
+			count = (count + 1) % maxElements;
+		}
+
+		return joiner.toString();
 	}
 }

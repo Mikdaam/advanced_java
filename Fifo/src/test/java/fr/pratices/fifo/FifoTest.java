@@ -89,7 +89,7 @@ public class FifoTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q5 {
 
     @Test
@@ -149,7 +149,7 @@ public class FifoTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q7 {
 
     @Test
