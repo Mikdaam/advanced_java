@@ -3,6 +3,8 @@ package fr.pratices.timeseries;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.IntPredicate;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -60,7 +62,15 @@ public class TimeSeries<E> {
 	}
 
 	public Index index() {
-		var indexes = IntStream.range(0, data.size()).toArray();
+		return index(e -> true);
+	}
+
+	public Index index(Predicate< ? super E> filter) {
+		Objects.requireNonNull(filter);
+		IntPredicate finalFilter = (int i) -> filter.test(data.get(i).element);
+		var indexes = IntStream.range(0, data.size())
+				.filter(finalFilter)
+				.toArray();
 		return new Index(indexes);
 	}
 }
