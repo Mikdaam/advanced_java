@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class TimeSeriesTest {
-  /*@Nested
+  @Nested
   public class Q1 {
 
     @Test
@@ -36,7 +36,7 @@ public class TimeSeriesTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q2 {
 
     @Test
