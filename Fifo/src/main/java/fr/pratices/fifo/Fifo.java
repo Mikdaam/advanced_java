@@ -38,6 +38,10 @@ public class Fifo<E> {
 		return element;
 	}
 
+	public int size() { return size; }
+
+	public boolean isEmpty() { return size == 0; }
+
 	@Override
 	public String toString() {
 		var joiner = new StringJoiner(", ", "[", "]");
