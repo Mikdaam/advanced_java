@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("static-method")
 public class FifoTest {
-  /*@Nested
+  @Nested
   public class Q2 {
 
     @Test
@@ -25,7 +25,7 @@ public class FifoTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q3 {
 
     @Test
