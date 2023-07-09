@@ -3,6 +3,7 @@ package fr.pratices.timeseries;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -37,6 +38,15 @@ public class TimeSeries<E> {
 					.mapToObj(data::get)
 					.map(Data::toString)
 					.collect(Collectors.joining("\n"));
+		}
+
+		public void forEach(Consumer<? super Data<E>> consumer) {
+			Objects.requireNonNull(consumer);
+			var elements = Arrays.stream(indexes)
+					.mapToObj(data::get)
+					.toList();
+
+			elements.forEach(consumer);
 		}
 	}
 
