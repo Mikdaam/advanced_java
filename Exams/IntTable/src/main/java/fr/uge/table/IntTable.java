@@ -119,4 +119,16 @@ public final class IntTable {
 		var keys = recordComponentIndexes(recordClass.getRecordComponents());
 		return new IntTable(new RecordImpl(new MapImpl(keys)));
 	}
+
+	@Override
+	public String toString() {
+		return switch (storage) {
+			case MapImpl map -> {
+				yield  "";
+			}
+			case RecordImpl record -> {
+				yield  "";
+			}
+		};
+	}
 }
