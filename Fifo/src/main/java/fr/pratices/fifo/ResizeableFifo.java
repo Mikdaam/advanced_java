@@ -1,6 +1,8 @@
 package fr.pratices.fifo;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ResizeableFifo<E> extends AbstractQueue<E> {
 	private E[] elements;
@@ -57,9 +59,10 @@ public class ResizeableFifo<E> extends AbstractQueue<E> {
 
 	@Override
 	public Iterator<E> iterator() {
-		return new Iterator<E>() {
+		return new Iterator<>() {
 			private int cursor = head;
 			private int i = 0;
+
 			@Override
 			public boolean hasNext() {
 				return i < size;
@@ -80,14 +83,10 @@ public class ResizeableFifo<E> extends AbstractQueue<E> {
 
 	@Override
 	public String toString() {
-		var joiner = new StringJoiner(", ", "[", "]");
-		int count = head;
-		for (int i = 0; i < size; i++) {
-			joiner.add(elements[count].toString());
-			count = (count + 1) % capacity;
-		}
-
-		return joiner.toString();
+		return IntStream.iterate(head, i -> (i + 1) % capacity)
+				.limit(size)
+				.mapToObj(i -> elements[i].toString())
+				.collect(Collectors.joining(", ", "[", "]"));
 	}
 
 	private void resize() {
