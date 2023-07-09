@@ -51,12 +51,17 @@ public final class IntTable {
 		}
 		@Override
 		public void set(String key, int value) {
-
+			int index = keys.get(key, -1);
+			if (index == -1) {
+				throw new IllegalStateException();
+			}
+			values[index] = value;
 		}
 
 		@Override
 		public int get(String key, int orElse) {
-			return 0;
+			int index = keys.get(key, -1);
+			return index == -1 ? -1 : values[index];
 		}
 
 		@Override
@@ -107,6 +112,7 @@ public final class IntTable {
 	}
 
 	public static IntTable from(Class<?> recordClass) {
+		Objects.requireNonNull(recordClass);
 		if (!recordClass.isRecord()) {
 			throw new IllegalArgumentException();
 		}

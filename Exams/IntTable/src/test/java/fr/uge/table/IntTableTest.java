@@ -267,7 +267,7 @@ public class IntTableTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q6 {
     @Test
     public void fromEmptyGet() {
@@ -349,7 +349,7 @@ public class IntTableTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q7 {
     @Test
     public void apply() {
