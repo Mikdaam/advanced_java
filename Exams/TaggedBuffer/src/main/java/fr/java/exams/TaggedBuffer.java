@@ -18,6 +18,9 @@ public class TaggedBuffer<E> {
 
 	public void add(E element) {
 		Objects.requireNonNull(element);
+		if (size == capacity) {
+			resize();
+		}
 		if (predicate.test(element)) {
 			taggedSize++;
 		}
@@ -27,5 +30,10 @@ public class TaggedBuffer<E> {
 
 	public int size(boolean onlyTagged) {
 		return onlyTagged ? taggedSize : size;
+	}
+
+	private void resize() {
+		capacity *= 2;
+		elements = Arrays.copyOf(elements, capacity);
 	}
 }
