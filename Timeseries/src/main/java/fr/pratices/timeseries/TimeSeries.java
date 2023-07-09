@@ -11,6 +11,11 @@ public class TimeSeries<E> {
 		Data {
 			Objects.requireNonNull(element);
 		}
+
+		@Override
+		public String toString() {
+			return timestamp + " | " + element;
+		}
 	}
 	class Index {
 		private final int[] indexes;
@@ -22,6 +27,14 @@ public class TimeSeries<E> {
 
 		public int size() {
 			return indexes.length;
+		}
+
+		@Override
+		public String toString() {
+			return Arrays.stream(indexes)
+					.mapToObj(data::get)
+					.map(Data::toString)
+					.collect(Collectors.joining("\n"));
 		}
 	}
 
