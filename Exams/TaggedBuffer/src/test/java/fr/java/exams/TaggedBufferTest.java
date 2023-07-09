@@ -17,7 +17,7 @@ import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TaggedBufferTest {
-  /*@Nested
+  @Nested
   class Q1 {
 
     @Test @Tag("Q1")
@@ -109,7 +109,7 @@ public class TaggedBufferTest {
     }
   }
 
-  @Nested
+  /*@Nested
   class Q2 {
 
     @Test @Tag("Q2")
@@ -140,7 +140,7 @@ public class TaggedBufferTest {
       );
     }
 
-    @Test @Tag("Q3")
+    /*@Test @Tag("Q3")
     public void findFirstWithIntegers() {
       var buffer = new TaggedBuffer<Integer>(i -> i % 2 == 0);
       buffer.add(1);
