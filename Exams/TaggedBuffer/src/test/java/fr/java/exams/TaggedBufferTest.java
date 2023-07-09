@@ -465,7 +465,7 @@ public class TaggedBufferTest {
   }
 
 
-  /*@Nested
+  @Nested
   class Q6 {
 
     @Test @Tag("Q6")
@@ -543,7 +543,7 @@ public class TaggedBufferTest {
   }
 
 
-  @Nested
+  /*@Nested
   class Q7 {
 
     @Test @Tag("Q7")

@@ -5,6 +5,24 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class TaggedBuffer<E> {
+	class Index extends AbstractList<E> implements RandomAccess {
+		private final int[] indexes;
+		private Index(int[] indexes) {
+			Objects.requireNonNull(indexes);
+			this.indexes = indexes;
+		}
+
+		@Override
+		public E get(int index) {
+			Objects.checkIndex(index, indexes.length);
+			return elements[indexes[index]];
+		}
+
+		@Override
+		public int size() {
+			return indexes.length;
+		}
+	}
 	private final Predicate<? super E> predicate;
 	private E[] elements;
 	private int capacity = 4;
@@ -100,6 +118,18 @@ public class TaggedBuffer<E> {
 				return element;
 			}
 		};
+	}
+
+	public List<E> asTaggedList() {
+		int[] indexes = new int[taggedSize];
+		int j = 0;
+		for (int i = 0; i < size; i++) {
+			if (predicate.test(elements[i])) {
+				indexes[j] = i;
+				j++;
+			}
+		}
+		return new Index(indexes);
 	}
 
 	private void resize() {
