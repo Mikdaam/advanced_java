@@ -1,8 +1,6 @@
 package fr.java.exams;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -59,6 +57,49 @@ public class TaggedBuffer<E> {
 		} else {
 			Arrays.stream(elements, 0, size).forEach(consumer);
 		}
+	}
+
+	public Iterator<E> iterator(boolean onlyTagged) {
+		if (onlyTagged) {
+			return new Iterator<>() {
+				private int index = 0;
+				private final int itSize = taggedSize;
+				@SuppressWarnings("unchecked")
+				private final E[] itElements = (E[]) Arrays.stream(elements, 0, size).filter(predicate).toArray();
+				@Override
+				public boolean hasNext() {
+					return index < itSize;
+				}
+
+				@Override
+				public E next() {
+					if (!hasNext()) {
+						throw new NoSuchElementException();
+					}
+					var element = itElements[index];
+					index++;
+					return element;
+				}
+			};
+		}
+
+		return new Iterator<>() {
+			private int index = 0;
+			@Override
+			public boolean hasNext() {
+				return index < size;
+			}
+
+			@Override
+			public E next() {
+				if (!hasNext()) {
+					throw new NoSuchElementException();
+				}
+				var element = elements[index];
+				index++;
+				return element;
+			}
+		};
 	}
 
 	private void resize() {
