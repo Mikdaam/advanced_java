@@ -25,4 +25,14 @@ public class Fifo<E> {
 		tail = (tail + 1) % maxElements;
 		size++;
 	}
+
+	public E poll() {
+		if (size == 0) {
+			throw new IllegalStateException();
+		}
+		var element = elements[head];
+		head = (head + 1) % maxElements;
+		size--;
+		return element;
+	}
 }
