@@ -66,10 +66,11 @@ public class LeaderDict <L, E> {
 		}
 	}
 
-	/*public Stream<E> values() {
-		var spliterator = map.values().spliterator();
-		return StreamSupport.stream(spliterator, false);
-	}*/
+	public Stream<E> values() {
+		var spliterator = map.values().stream().flatMap(Collection::stream).spliterator();
+		return StreamSupport.stream(spliterator, true);
+	}
+
 
 	@Override
 	public String toString() {

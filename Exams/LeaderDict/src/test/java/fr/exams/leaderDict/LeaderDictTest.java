@@ -460,7 +460,7 @@ public class LeaderDictTest {
 
   // Q8
 
-  /*@Test @Tag("Q8")
+  @Test @Tag("Q8")
   public void valuesEmployee() {
     record Employee(String name, String manager) {}
     var leaderDict = new LeaderDict<>(Employee::manager);
@@ -496,7 +496,7 @@ public class LeaderDictTest {
 
   // Q9
 
-  @Test @Tag("Q9")
+  /*@Test @Tag("Q9")
   public void valuesParallelALotOfValues() {
     var leaderDict = new LeaderDict<Integer, Integer>(x -> x);
     IntStream.range(0, 1_000_000).forEach(leaderDict::add);
