@@ -2,6 +2,7 @@ package fr.exams.entropyset;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -13,6 +14,7 @@ public class EntropySet<T> extends AbstractSet<T> {
 	private final T[] cache = (T[]) new Object[CAPACITY];
 	private boolean frozen;
 
+	@Override
 	public boolean add(T element) {
 		Objects.requireNonNull(element);
 		if (frozen) {
@@ -31,6 +33,7 @@ public class EntropySet<T> extends AbstractSet<T> {
 		return false;
 	}
 
+	@Override
 	public int size() {
 		frozen = true;
 		for (int i = 0; i < cache.length; i++) {
@@ -41,6 +44,7 @@ public class EntropySet<T> extends AbstractSet<T> {
 		return CAPACITY + set.size();
 	}
 
+	@Override
 	public boolean contains(Object element) {
 		Objects.requireNonNull(element);
 		frozen = true;
@@ -55,10 +59,12 @@ public class EntropySet<T> extends AbstractSet<T> {
 		return set.contains(element);
 	}
 
+
 	public boolean isFrozen() {
 		return frozen;
 	}
 
+	@Override
 	public Iterator<T> iterator() {
 		frozen = true;
 		return new Iterator<T>() {
@@ -113,6 +119,13 @@ public class EntropySet<T> extends AbstractSet<T> {
 		};
 	}
 
+
+	@Override
+	public boolean removeIf(Predicate<? super T> filter) {
+		return super.removeIf(filter);
+	}
+
+	@Override
 	public Stream<T> stream() {
 		return StreamSupport.stream(fromIterator(iterator()), true);
 	}

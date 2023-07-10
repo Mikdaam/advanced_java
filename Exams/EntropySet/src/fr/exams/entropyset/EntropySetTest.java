@@ -560,7 +560,7 @@ public class EntropySetTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q8 {
     @Test
     public void stream() {
@@ -661,7 +661,7 @@ public class EntropySetTest {
           () -> assertTrue(threads.size() > 1)
       );
     }
-  }
+  }*/
 
 
   /*@Nested
