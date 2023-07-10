@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UnitTestTest {
-  /*@Nested
+  @Nested
   public class Q1 {
     @Test
     public void checkEqualsOk() {
@@ -162,7 +162,7 @@ public class UnitTestTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q4 {
     @Test
     public void ensure() {
