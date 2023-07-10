@@ -496,7 +496,7 @@ public class LeaderDictTest {
 
   // Q9
 
-  /*@Test @Tag("Q9")
+  @Test @Tag("Q9")
   public void valuesParallelALotOfValues() {
     var leaderDict = new LeaderDict<Integer, Integer>(x -> x);
     IntStream.range(0, 1_000_000).forEach(leaderDict::add);
@@ -545,5 +545,5 @@ public class LeaderDictTest {
   public void valuesParallelEmpty() {
     var leaderDict = new LeaderDict<>(String::length);
     assertEquals(0L, leaderDict.values().parallel().count());
-  }*/
+  }
 }
