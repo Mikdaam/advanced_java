@@ -395,7 +395,7 @@ public class EntropySetTest {
   }
 
 
-  /*@Nested
+  @Nested
   public class Q7 {
     @Test
     public void fromList() {
@@ -664,7 +664,7 @@ public class EntropySetTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q9 {
     @Test
     public void removeIf() {

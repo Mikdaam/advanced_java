@@ -1,6 +1,9 @@
 package fr.exams.entropyset;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class EntropySet<T> extends AbstractSet<T> {
 	private static final int CAPACITY = 4;
@@ -80,5 +83,50 @@ public class EntropySet<T> extends AbstractSet<T> {
 				return element;
 			}
 		};
+	}
+
+	private Spliterator<T> fromIterator(Iterator<T> it) {
+		return new Spliterator<T>() {
+			@Override
+			public boolean tryAdvance(Consumer<? super T> action) {
+				if (it.hasNext()) {
+					action.accept(it.next());
+					return true;
+				}
+				return false;
+			}
+
+			@Override
+			public Spliterator<T> trySplit() {
+				return null;
+			}
+
+			@Override
+			public long estimateSize() {
+				return Long.MAX_VALUE;
+			}
+
+			@Override
+			public int characteristics() {
+				return DISTINCT | ORDERED | NONNULL;
+			}
+		};
+	}
+
+	public Stream<T> stream() {
+		return StreamSupport.stream(fromIterator(iterator()), true);
+	}
+
+	public static <T> EntropySet<T> from(Collection<? extends T> elements) {
+		Objects.requireNonNull(elements);
+		var newSet = new EntropySet<T>();
+		if (elements.spliterator().hasCharacteristics(Spliterator.DISTINCT|Spliterator.NONNULL)) {
+			newSet.addAll(elements);
+		} else {
+			var t = Set.copyOf(elements);
+			newSet.addAll(t);
+		}
+
+		return newSet;
 	}
 }
