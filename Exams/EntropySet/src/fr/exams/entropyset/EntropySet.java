@@ -1,10 +1,8 @@
 package fr.exams.entropyset;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
+import java.util.*;
 
-public class EntropySet<T> {
+public class EntropySet<T> extends AbstractSet<T> {
 	private static final int CAPACITY = 4;
 
 	private final LinkedHashSet<T> set = new LinkedHashSet<>();
@@ -12,7 +10,7 @@ public class EntropySet<T> {
 	private final T[] cache = (T[]) new Object[CAPACITY];
 	private boolean frozen;
 
-	public void add(T element) {
+	public boolean add(T element) {
 		Objects.requireNonNull(element);
 		if (frozen) {
 			throw new UnsupportedOperationException();
@@ -20,13 +18,14 @@ public class EntropySet<T> {
 		for (int i = 0; i < cache.length; i++) {
 			if (cache[i] == null) {
 				cache[i] = element;
-				return;
+				return false;
 			}
 			if (cache[i].equals(element)) {
-				return;
+				return false;
 			}
 		}
 		set.add(element);
+		return false;
 	}
 
 	public int size() {
@@ -55,5 +54,31 @@ public class EntropySet<T> {
 
 	public boolean isFrozen() {
 		return frozen;
+	}
+
+	public Iterator<T> iterator() {
+		frozen = true;
+		return new Iterator<T>() {
+			private int i = 0;
+			@Override
+			public boolean hasNext() {
+				return i < size();
+			}
+
+			@Override
+			public T next() {
+				if (!hasNext()) {
+					throw new NoSuchElementException();
+				}
+				if (i < CAPACITY) {
+					return cache[i++];
+				}
+				@SuppressWarnings("unchecked")
+				var arrayElt = (T[]) set.toArray();
+				var element = arrayElt[i - CAPACITY];
+				i++;
+				return element;
+			}
+		};
 	}
 }
