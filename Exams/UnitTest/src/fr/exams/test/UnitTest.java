@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class UnitTest {
+	interface Ensure<T> {
+		void equalsTo(T value);
+		Ensure<T> not();
+	}
 	private final HashMap<String, Runnable> tests = new HashMap<>();
 
 	public void test(String name, Runnable run) {
@@ -35,6 +39,34 @@ public class UnitTest {
 		}
 
 		return List.of();
+	}
+
+	public static <T> Ensure<T> ensure(T firstValue) {
+		return new Ensure<>() {
+			private final Ensure<T> parent = this;
+
+			@Override
+			public void equalsTo(T secondValue) {
+				checkEquals(firstValue, secondValue);
+			}
+
+			@Override
+			public Ensure<T> not() {
+				return new Ensure<>() {
+					@Override
+					public void equalsTo(T value) {
+						if (Objects.equals(firstValue, value)) {
+							throw new AssertionError(firstValue + " is equal to " + value);
+						}
+					}
+
+					@Override
+					public Ensure<T> not() {
+						return parent;
+					}
+				};
+			}
+		};
 	}
 
 	public static void checkEquals(Object value1, Object value2) {

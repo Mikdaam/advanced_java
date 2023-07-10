@@ -162,7 +162,7 @@ public class UnitTestTest {
     }
   }
 
-  /*@Nested
+  @Nested
   public class Q4 {
     @Test
     public void ensure() {
@@ -284,7 +284,7 @@ public class UnitTestTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q6 {
     @Test
     public void ensureWithAReturnValue() {
