@@ -1,8 +1,6 @@
 package fr.exams.test;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class UnitTest {
@@ -45,6 +43,23 @@ public class UnitTest {
 			};
 		}
 	}
+
+	record Report(List<String> names, Map<String, List<Error>> errors)  {
+		public Report {
+			Objects.requireNonNull(names);
+			Objects.requireNonNull(errors);
+		}
+		public List<String> names() {
+			var copy = new ArrayList<>(names);
+			return Collections.unmodifiableList(copy);
+		}
+
+		public Map<String, List<Error>> errors() {
+			var copy = new HashMap<>(errors);
+			return Collections.unmodifiableMap(copy);
+		}
+	}
+
 	private final HashMap<String, Runnable> tests = new HashMap<>();
 
 	public void test(String name, Runnable run) {

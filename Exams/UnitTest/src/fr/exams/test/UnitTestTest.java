@@ -392,7 +392,7 @@ public class UnitTestTest {
     }
   }
 
-  /*@Nested
+  @Nested
   public class Q8 {
     @Test
     public void report() {
@@ -452,7 +452,7 @@ public class UnitTestTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q9 {
     @Test
     public void runAll() {
