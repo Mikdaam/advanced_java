@@ -3,7 +3,8 @@ package fr.exams.leaderDict;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class LeaderDict <L, E> {
 	private final Function<? super E, L> leaderFunction;
@@ -27,7 +28,21 @@ public class LeaderDict <L, E> {
 
 	public List<E> valuesFor(Object leader) {
 		Objects.requireNonNull(leader);
-		return Collections.unmodifiableList(map.getOrDefault(leader, new LinkedList<>()));
+
+		class SubList extends AbstractList<E> implements RandomAccess {
+			private final List<E> list = map.getOrDefault((E) leader, new LinkedList<>());
+			@Override
+			public E get(int index) {
+				return list.get(index);
+			}
+
+			@Override
+			public int size() {
+				return list.size();
+			}
+		}
+
+		return new SubList();
 	}
 
 	public void forEach(BiConsumer<? super L, ? super E> biConsumer) {
@@ -50,6 +65,11 @@ public class LeaderDict <L, E> {
 			leaderDict.forEach((l, e) -> add(e));
 		}
 	}
+
+	/*public Stream<E> values() {
+		var spliterator = map.values().spliterator();
+		return StreamSupport.stream(spliterator, false);
+	}*/
 
 	@Override
 	public String toString() {
