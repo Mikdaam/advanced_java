@@ -24,7 +24,7 @@ import static java.util.stream.IntStream.rangeClosed;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EntropySetTest {
-  /*@Nested
+  @Nested
   public class Q1 {
     @Test
     public void add() {
@@ -233,7 +233,7 @@ public class EntropySetTest {
   }
 
 
-  @Nested
+  /*@Nested
   public class Q5 {
     @Test
     public void iterator() {
