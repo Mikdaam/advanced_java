@@ -202,7 +202,7 @@ public class LeaderDictTest {
 
   // Q4
 
-  /*@Test @Tag("Q4")
+  @Test @Tag("Q4")
   public void forEachStringLength() {
     var leaderDict = new LeaderDict<>(String::length);
     leaderDict.add("foo");
@@ -460,7 +460,7 @@ public class LeaderDictTest {
 
   // Q8
 
-  @Test @Tag("Q8")
+  /*@Test @Tag("Q8")
   public void valuesEmployee() {
     record Employee(String name, String manager) {}
     var leaderDict = new LeaderDict<>(Employee::manager);

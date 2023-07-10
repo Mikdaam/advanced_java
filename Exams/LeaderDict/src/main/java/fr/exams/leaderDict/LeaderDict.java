@@ -1,6 +1,7 @@
 package fr.exams.leaderDict;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -26,17 +27,39 @@ public class LeaderDict <L, E> {
 
 	public List<E> valuesFor(Object leader) {
 		Objects.requireNonNull(leader);
-		return Collections.unmodifiableMap(map).getOrDefault(leader, new LinkedList<>());
+		return Collections.unmodifiableList(map.getOrDefault(leader, new LinkedList<>()));
+	}
+
+	public void forEach(BiConsumer<? super L, ? super E> biConsumer) {
+		Objects.requireNonNull(biConsumer);
+		for (var entry : map.entrySet()) {
+			for (var element : entry.getValue()) {
+				biConsumer.accept(entry.getKey(), element);
+			}
+		}
+	}
+
+	public void addAll(LeaderDict<? extends L, ? extends E> leaderDict) {
+		Objects.requireNonNull(leaderDict);
+		if (leaderFunction.equals(leaderDict.leaderFunction)) {
+			for (var entry : leaderDict.map.entrySet()) {
+				var currentElements = map.computeIfAbsent(entry.getKey(), l -> new LinkedList<>());
+				currentElements.addAll(entry.getValue());
+			}
+		} else {
+			leaderDict.forEach((l, e) -> add(e));
+		}
 	}
 
 	@Override
 	public String toString() {
 		var builder = new StringBuilder();
-		for (var entry : map.entrySet()) {
+		/*for (var entry : map.entrySet()) {
 			for (var element : entry.getValue()) {
 				builder.append(entry.getKey()).append(": ").append(element).append("\n");
 			}
-		}
+		}*/
+		forEach((leader, element) -> builder.append(leader).append(": ").append(element).append("\n"));
 
 		return builder.toString();
 	}
