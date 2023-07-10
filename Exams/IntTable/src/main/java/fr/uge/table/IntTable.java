@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.IntUnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public final class IntTable {
 	sealed interface Impl {
@@ -36,9 +38,8 @@ public final class IntTable {
 
 		@Override
 		public Impl apply(IntUnaryOperator function) {
-			var impl = new MapImpl(new HashMap<>());
-			map.forEach((key, value) -> impl.set(key, function.applyAsInt(value)));
-			return impl;
+			var applyMap = map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> function.applyAsInt(entry.getValue())));
+			return new MapImpl(applyMap);
 		}
 	}
 	static final class RecordImpl implements Impl {
@@ -104,11 +105,9 @@ public final class IntTable {
 
 	static Map<String, Integer> recordComponentIndexes(RecordComponent[] recordComponents) {
 		Objects.requireNonNull(recordComponents);
-		var map = new HashMap<String, Integer>();
-		for (int i = 0; i < recordComponents.length; i++) {
-			map.put(recordComponents[i].getName(), i);
-		}
-		return map;
+		return IntStream.range(0, recordComponents.length)
+				.boxed()
+				.collect(Collectors.toMap(i -> recordComponents[i].getName(), i -> i));
 	}
 
 	public static IntTable from(Class<?> recordClass) {
