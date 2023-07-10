@@ -284,7 +284,7 @@ public class UnitTestTest {
     }
   }
 
-  /*@Nested
+  @Nested
   public class Q6 {
     @Test
     public void ensureWithAReturnValue() {
@@ -325,7 +325,7 @@ public class UnitTestTest {
       );
     }
 
-    @Test
+    /*@Test
     public void ensureWithAReturnWhileThrowingAnIOException() {
       var unitTest = new UnitTest();
       unitTest.test("test",
@@ -335,10 +335,10 @@ public class UnitTestTest {
           () -> assertEquals(1, errors.size()),
           () -> assertEquals("java.io.IOException: oops", errors.get(0).getMessage())
       );
-    }
+    }*/
   }
 
-  @Nested
+  /*@Nested
   public class Q7 {
     @Test
     public void ensureWithAnException() {

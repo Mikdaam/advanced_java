@@ -3,11 +3,46 @@ package fr.exams.test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public class UnitTest {
 	interface Ensure<T> {
 		void equalsTo(T value);
 		Ensure<T> not();
+	}
+	interface Return<T> {
+		Ensure<T> returnValue();
+	}
+
+	private static class EnsureImpl<T> implements Ensure<T> {
+		private final Ensure<T> parent = this;
+		private final T value;
+
+		private EnsureImpl(T value) {
+			this.value = value;
+		}
+
+		@Override
+		public void equalsTo(T otherValue) {
+			checkEquals(value, otherValue);
+		}
+
+		@Override
+		public Ensure<T> not() {
+			return new Ensure<>() {
+				@Override
+				public void equalsTo(T otherValue) {
+					if (Objects.equals(value, otherValue)) {
+						throw new AssertionError(value + " is equal to " + otherValue);
+					}
+				}
+
+				@Override
+				public Ensure<T> not() {
+					return parent;
+				}
+			};
+		}
 	}
 	private final HashMap<String, Runnable> tests = new HashMap<>();
 
@@ -42,36 +77,23 @@ public class UnitTest {
 	}
 
 	public static <T> Ensure<T> ensure(T firstValue) {
-		return new Ensure<>() {
-			private final Ensure<T> parent = this;
-
-			@Override
-			public void equalsTo(T secondValue) {
-				checkEquals(firstValue, secondValue);
-			}
-
-			@Override
-			public Ensure<T> not() {
-				return new Ensure<>() {
-					@Override
-					public void equalsTo(T value) {
-						if (Objects.equals(firstValue, value)) {
-							throw new AssertionError(firstValue + " is equal to " + value);
-						}
-					}
-
-					@Override
-					public Ensure<T> not() {
-						return parent;
-					}
-				};
-			}
-		};
+		return new EnsureImpl<>(firstValue);
 	}
 
 	public static void checkEquals(Object value1, Object value2) {
 		if (!Objects.equals(value1, value2)) {
 			throw new AssertionError(value1 + " is not equal to " + value2);
 		}
+	}
+
+	public static <T> Return<T> ensureCode(Supplier<T> supplier) {
+		Objects.requireNonNull(supplier);
+		var ret = supplier.get();
+		return new Return<T>() {
+			@Override
+			public Ensure<T> returnValue() {
+				return new EnsureImpl<>(ret);
+			}
+		};
 	}
 }
