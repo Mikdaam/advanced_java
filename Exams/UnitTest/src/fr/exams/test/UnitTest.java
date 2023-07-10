@@ -12,6 +12,7 @@ public class UnitTest {
 	}
 	interface Return<T> {
 		Ensure<T> returnValue();
+		void throwsAnException(Class<?> exceptionClass);
 	}
 
 	private static class EnsureImpl<T> implements Ensure<T> {
@@ -88,11 +89,34 @@ public class UnitTest {
 
 	public static <T> Return<T> ensureCode(Supplier<T> supplier) {
 		Objects.requireNonNull(supplier);
-		var ret = supplier.get();
+		T res = null;
+		Class<?> exceptClass = null;
+		boolean exceptionThrown;
+		try {
+			res = supplier.get();
+			exceptionThrown = false;
+		} catch (Exception e) {
+			exceptionThrown = true;
+			exceptClass = e.getClass();
+		}
+		boolean finalExceptionThrown = exceptionThrown;
+		Class<?> finalExceptClass = exceptClass;
+		T finalRes = res;
 		return new Return<T>() {
 			@Override
 			public Ensure<T> returnValue() {
-				return new EnsureImpl<>(ret);
+				return new EnsureImpl<>(finalRes);
+			}
+
+			@Override
+			public void throwsAnException(Class<?> exceptionClass) {
+				if (!finalExceptionThrown) {
+					throw new AssertionError("expect " + exceptionClass.getName() + " but no exception was thrown");
+				}
+
+				if (!finalExceptClass.equals(exceptionClass)) {
+					throw new AssertionError("unexpected exception " + finalExceptClass.getName());
+				}
 			}
 		};
 	}

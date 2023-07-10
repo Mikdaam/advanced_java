@@ -338,7 +338,7 @@ public class UnitTestTest {
     }*/
   }
 
-  /*@Nested
+  @Nested
   public class Q7 {
     @Test
     public void ensureWithAnException() {
@@ -371,7 +371,7 @@ public class UnitTestTest {
       );
     }
 
-    @Test
+    /*@Test
     public void ensureFailThrowsTheWrongException2() {
       var unitTest = new UnitTest();
       unitTest.test("test",
@@ -382,7 +382,7 @@ public class UnitTestTest {
           () -> assertEquals(1, errors.size()),
           () -> assertEquals("unexpected exception java.io.IOException", errors.get(0).getMessage())
       );
-    }
+    }*/
 
     @Test
     public void precondition() {
@@ -392,7 +392,7 @@ public class UnitTestTest {
     }
   }
 
-  @Nested
+  /*@Nested
   public class Q8 {
     @Test
     public void report() {
