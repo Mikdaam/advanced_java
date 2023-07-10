@@ -17,7 +17,7 @@ public class LeaderDictTest {
 
   // Q1
 
-  /*@Test @Tag("Q1")
+  @Test @Tag("Q1")
   public void leaderDictOfEmployee() {
     record Employee(String name, String manager) {}
     LeaderDict<String, Employee> leaderDict = new LeaderDict<>(Employee::manager);
@@ -81,7 +81,7 @@ public class LeaderDictTest {
 
   // Q2
 
-  @Test @Tag("Q2")
+  /*@Test @Tag("Q2")
   public void valuesForStringLength() {
     LeaderDict<Integer, String> leaderDict = new LeaderDict<>(String::length);
     leaderDict.add("foo");
